@@ -35,7 +35,6 @@ def get_sentence(histogram, amount=15):
     sentence = ' '.join(words)
     return sentence
 
-
 if __name__ == "__main__":
     entry = f"../Code/{sys.argv[1]}"
     histogram = list_of_lists_histogram(entry)

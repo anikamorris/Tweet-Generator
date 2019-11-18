@@ -8,6 +8,12 @@ class Node(object):
         self.data = data
         self.next = None
 
+    def set_data(self, new_data):
+        self.data = new_data
+
+    def set_next(self, new_next):
+        self.next = new_next
+
     def __repr__(self):
         """Return a string representation of this node."""
         return 'Node({!r})'.format(self.data)
@@ -54,20 +60,38 @@ class LinkedList(object):
 
     def length(self):
         """Return the length of this linked list by traversing its nodes.
-        TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all nodes and count one for each
+        TODO: Running time: O(n) because we will always have to loop through
+        every item in the list in order to count them all."""
+        count = 0
+        current = self.head
+        while current is not None:
+            current = current.next
+            count += 1
+        return count
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
         TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Create new node to hold given item
-        # TODO: Append node after tail, if it exists
+        # Create new node to hold given item
+        new_node = Node(item)
+        if self.tail is not None:
+            self.tail.next = new_node
+        # Append node after tail, if it exists
+        else:
+            self.head = new_node
+        self.tail = new_node
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
         TODO: Running time: O(???) Why and under what conditions?"""
         # TODO: Create new node to hold given item
+        new_node = Node(item)
         # TODO: Prepend node before head, if it exists
+        if self.head is not None:
+            new_node.next = self.head
+        else:
+            self.tail = new_node
+        self.head = new_node
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
@@ -101,17 +125,17 @@ def test_linked_list():
     print('length: {}'.format(ll.length()))
 
     # Enable this after implementing delete method
-    delete_implemented = False
-    if delete_implemented:
-        print('\nTesting delete:')
-        for item in ['B', 'C', 'A']:
-            print('delete({!r})'.format(item))
-            ll.delete(item)
-            print('list: {}'.format(ll))
+    # delete_implemented = False
+    # if delete_implemented:
+    #     print('\nTesting delete:')
+    #     for item in ['B', 'C', 'A']:
+    #         print('delete({!r})'.format(item))
+    #         ll.delete(item)
+    #         print('list: {}'.format(ll))
 
-        print('head: {}'.format(ll.head))
-        print('tail: {}'.format(ll.tail))
-        print('length: {}'.format(ll.length()))
+    #     print('head: {}'.format(ll.head))
+    #     print('tail: {}'.format(ll.tail))
+    #     print('length: {}'.format(ll.length()))
 
 
 if __name__ == '__main__':
