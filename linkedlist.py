@@ -106,13 +106,19 @@ class LinkedList(object):
         we will have to loop throuh every item before we reach the last one."""
         # Loop through all nodes to find item where quality(item) is True
         # Check if node's data satisfies given quality() function
+        # Verify a list exists by checking if there's a head
         if self.head is not None:
+            # Instantiate a variable to loop through nodes
             current = self.head
+            # Continue until we've reached the end of the list
             while current is not None:
+                # If the data in current node matches the item we're looking for
                 if quality(current.data) is True:
                     return current.data
+                # Otherwise, go to next node
                 else:
                     current = current.next
+        # No list exists, return noneß
         else:
             return None
 
@@ -148,7 +154,7 @@ class LinkedList(object):
                     # If first node is the correct one
                     if previous is None: 
                         self.head = current.next
-                    #If last node is the correct one
+                    # If last node is the correct one
                     elif current == self.tail: 
                         self.tail = previous
                         previous.next = None
