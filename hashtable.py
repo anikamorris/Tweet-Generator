@@ -54,12 +54,18 @@ class HashTable(object):
         TODO: Running time: O(???) Why and under what conditions?"""
         # TODO: Loop through all buckets
         # TODO: Count number of key-value entries in each bucket
+        count = 0
+        for bucket in self.buckets:
+            for key, value in bucket.items():
+                count += 1
+        return count
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
         TODO: Running time: O(???) Why and under what conditions?"""
         # TODO: Find bucket where given key belongs
         # TODO: Check if key-value entry exists in bucket
+        for item, value in self.
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
