@@ -1,0 +1,62 @@
+from dictogram import Dictogram
+import random
+
+def new_chain(word_list, word):
+    """If word is in word_list, append the next word to a list.
+       Then create a new histogram with the list of following words.
+       
+       Parameters:
+       word_list: List
+       word: String
+
+       Returns:
+       chain: Dictogram
+    """
+    chain_list = []
+    for i in range(len(word_list) - 1):
+        if word == word_list[i]:
+            chain_list.append(word_list[i + 1])
+
+    chain = Dictogram(chain_list)
+    return chain
+
+def walk(word_list, length):
+    """Start sentence with sample word from full histogram. 
+       Sample each new histogram chain to get next word, add to sentence. 
+       
+       Parameters:
+       word_list: List
+       length: Int
+
+       Returns:
+       sentence: List
+    """
+    sentence = []
+    histogram = Dictogram(word_list)
+    next_word = histogram.sample()
+    sentence.append(next_word)
+    for i in range(length - 1):
+        chain = new_chain(word_list, next_word)
+        if len(chain) > 0:
+            next_word = chain.sample()
+            sentence.append(next_word)
+
+    return sentence
+
+def create_sentence(words):
+    """Joins words in a list, capitalizes the first word and adds a period to the end. 
+
+        Parameters:
+        words: List
+
+        Returns:
+        formatted_sentence: String
+    """
+    words[0] = words[0].capitalize()
+    formatted_sentence = ' '.join(words) + '.'
+
+    return formatted_sentence
+
+if __name__ == "__main__":
+    word_list = ['one', 'fish', 'two', 'fish', 'red', 'fish', 'blue', 'fish', 'cat']
+    print(create_sentence(walk(word_list, 15)))

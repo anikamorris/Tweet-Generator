@@ -72,8 +72,8 @@ class HashTable(object):
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
-        TODO: Running time: O(1) best case when key is in the head node of the bucket.
-                            O(l) worst case when key does not exist"""
+        Running time: O(1) best case when key is in the head node of the bucket.
+                      O(l) worst case when key does not exist"""
         # Find bucket where given key belongs
         bucket = self.get_bucket(key)
         # Check if key-value entry exists in bucket
@@ -84,19 +84,17 @@ class HashTable(object):
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
-        TODO: Running time: O(1) best case when key is in head node of bucket
-                            O(l) worst case when key isn't in bucket"""
+        Running time: O(1) best case when key is in head node of bucket
+                      O(l) worst case when key isn't in bucket"""
         # Find bucket where given key belongs
         bucket = self.get_bucket(key)
         # Check if key-value entry exists in bucket
-        if self.contains(key):
-            for current_key, value in bucket.items():
-                # If found, return value associated with given key
-                if current_key == key:
-                    return value
+        for current_key, value in bucket.items():
+            # If found, return value associated with given key
+            if current_key == key:
+                return value
         # Otherwise, raise error to tell user get failed
-        else:
-            raise KeyError('Key not found: {}'.format(key))
+        raise KeyError('Key not found: {}'.format(key))
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
@@ -117,8 +115,8 @@ class HashTable(object):
 
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
-        TODO: Running time: O(1) best case when key is in head node of bucket
-                            O(l) worst case when key isn't in bucket"""
+        Running time: O(1) best case when key is in head node of bucket
+                      O(l) worst case when key isn't in bucket"""
         # Find bucket where given key belongs
         bucket = self.get_bucket(key)
         # Check if key-value entry exists in bucket
