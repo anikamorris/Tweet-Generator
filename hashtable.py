@@ -30,7 +30,9 @@ class HashTable(object):
 
     def keys(self):
         """Return a list of all keys in this hash table.
-        TODO: Running time: O(n) Why and under what conditions?"""
+        Running time: O(n) It's necessary to loop through each bucket (b)
+        and each item in each bucket (l) in order to access all of the keys in the hashtable,
+        and b * l = n"""
         # Collect all keys in each bucket
         all_keys = []
         for bucket in self.buckets:
@@ -40,7 +42,7 @@ class HashTable(object):
 
     def values(self):
         """Return a list of all values in this hash table.
-        TODO: Running time: O(n) Why and under what conditions?"""
+        Running time: O(n) Same as keys, except we're accessing values instead of keys."""
         all_values = []
         for bucket in self.buckets:
             for key, value in bucket.items():
@@ -49,7 +51,7 @@ class HashTable(object):
 
     def items(self):
         """Return a list of all items (key-value pairs) in this hash table.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) because it has to get all the items in each bucket"""
         # Collect all pairs of key-value entries in each bucket
         all_items = []
         for bucket in self.buckets:
@@ -58,7 +60,8 @@ class HashTable(object):
 
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(n) because we loop through all buckets (b), then find all 
+        key-value pairs in each bucket (l), and b * l = n."""
         count = 0
         # Loop through all buckets
         for bucket in self.buckets:
@@ -69,7 +72,8 @@ class HashTable(object):
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1) best case when key is in the head node of the bucket.
+                            O(l) worst case when key does not exist"""
         # Find bucket where given key belongs
         bucket = self.get_bucket(key)
         # Check if key-value entry exists in bucket
@@ -80,7 +84,8 @@ class HashTable(object):
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1) best case when key is in head node of bucket
+                            O(l) worst case when key isn't in bucket"""
         # Find bucket where given key belongs
         bucket = self.get_bucket(key)
         # Check if key-value entry exists in bucket
@@ -95,7 +100,8 @@ class HashTable(object):
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        Running time: O(1) best case when key is in head node of bucket
+                      O(l) worst case when key isn't in bucket"""
         # Find bucket where given key belongs
         bucket = self.get_bucket(key)
         # Check if key-value entry exists in bucket
@@ -111,7 +117,8 @@ class HashTable(object):
 
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1) best case when key is in head node of bucket
+                            O(l) worst case when key isn't in bucket"""
         # Find bucket where given key belongs
         bucket = self.get_bucket(key)
         # Check if key-value entry exists in bucket
@@ -127,6 +134,7 @@ class HashTable(object):
 
 def test_hash_table():
     ht = HashTable()
+
     print('hash table: {}'.format(ht))
 
     print('\nTesting set:')
