@@ -1,4 +1,5 @@
 from dictogram import Dictogram
+from histogram import file_or_string
 import random
 
 def higher_order(word_list, new_words, order=2):
@@ -10,6 +11,8 @@ def higher_order(word_list, new_words, order=2):
 
     Returns:
     storage_dict: dict where key is new_words and value is a Dictogram
+
+    Pair programmed with Jon Infante
     """
     storage_dict = dict()
 
@@ -34,6 +37,32 @@ def higher_order(word_list, new_words, order=2):
 
     storage_dict[new_words] = Dictogram(next_pairs)
     return storage_dict
+
+def second_order_walk(word_list, length):
+    sentence = []
+    next_words_list = []
+    histogram = Dictogram(word_list)
+
+    next_word_str = histogram.sample()
+    next_words_list.append(next_word_str)
+
+    chain = new_chain(word_list, next_word_str)
+    next_next_word = chain.sample()
+    next_words_list.append(next_next_word)
+
+    words_str = " ".join(next_words_list)
+
+    sentence.append(words_str)
+    for i in range(length - 1):
+        chain = higher_order(word_list, words_str)
+        if len(chain) > 0:
+            words_str = chain[words_str].sample()
+            next_words_list.clear()
+            next_words_list = words_str.split()
+            sentence.append(next_words_list[1])
+
+    sentence = " ".join(sentence)
+    return sentence
 
 def new_chain(word_list, word):
     """If word is in word_list, append the next word to a list.
@@ -92,6 +121,9 @@ def create_sentence(words):
     return formatted_sentence
 
 if __name__ == "__main__":
-    word_list = ['one', 'fish', 'two', 'fish', 'two', 'fish', 'blue', 'fish', 'cat']
+    words = file_or_string('aristotlePoetry.txt')
+    word_list = words.split()
+    # word_list = ['one', 'fish', 'two', 'fish', 'two', 'fish', 'blue', 'fish', 'cat']
     # print(create_sentence(walk(word_list, 15)))
-    print(higher_order(word_list, "fish two", 3))
+    # print(higher_order(word_list, "fish two fish", 3))
+    print(second_order_walk(word_list, 20))

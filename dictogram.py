@@ -40,6 +40,8 @@ class Dictogram(dict):
             if fence >= dart:
                 return word
 
+        
+
 def print_histogram(word_list):
     print()
     print('Histogram:')
