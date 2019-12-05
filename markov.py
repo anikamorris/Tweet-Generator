@@ -1,22 +1,33 @@
 from dictogram import Dictogram
 import random
 
-def higher_order(word_list, new_words):
+def higher_order(word_list, new_words, order=2):
+    """
+    Parameters:
+    word_list: List
+    new_words: String
+    order: Int
+
+    Returns:
+    storage_dict: dict where key is new_words and value is a Dictogram
+    """
     storage_dict = dict()
-    n = 2
 
     key_words = new_words.split()
+    if len(key_words) != order:
+        return "Length of input words does not equal order"
+
     words = []
     next_words = []
     next_pairs = []
 
     for i in range(len(word_list) - 1):
         words.clear()
-        for j in range(n):
+        for j in range(order):
             words.append(word_list[i + j])
         if key_words == words:
             next_words.clear()
-            for j in range(n):
+            for j in range(order):
                 next_words.append(word_list[i + (j + 1)])
             next_words_str = " ".join(next_words)
             next_pairs.append(next_words_str)
@@ -83,4 +94,4 @@ def create_sentence(words):
 if __name__ == "__main__":
     word_list = ['one', 'fish', 'two', 'fish', 'two', 'fish', 'blue', 'fish', 'cat']
     # print(create_sentence(walk(word_list, 15)))
-    print(higher_order(word_list, "fish two"))
+    print(higher_order(word_list, "fish two", 3))
