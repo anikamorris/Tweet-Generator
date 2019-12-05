@@ -1,6 +1,29 @@
 from dictogram import Dictogram
 import random
 
+def higher_order(word_list, new_words):
+    storage_dict = dict()
+    n = 2
+
+    key_words = new_words.split()
+    words = []
+    next_words = []
+    next_pairs = []
+
+    for i in range(len(word_list) - 1):
+        words.clear()
+        for j in range(n):
+            words.append(word_list[i + j])
+        if key_words == words:
+            next_words.clear()
+            for j in range(n):
+                next_words.append(word_list[i + (j + 1)])
+            next_words_str = " ".join(next_words)
+            next_pairs.append(next_words_str)
+
+    storage_dict[new_words] = Dictogram(next_pairs)
+    return storage_dict
+
 def new_chain(word_list, word):
     """If word is in word_list, append the next word to a list.
        Then create a new histogram with the list of following words.
@@ -58,5 +81,6 @@ def create_sentence(words):
     return formatted_sentence
 
 if __name__ == "__main__":
-    word_list = ['one', 'fish', 'two', 'fish', 'red', 'fish', 'blue', 'fish', 'cat']
-    print(create_sentence(walk(word_list, 15)))
+    word_list = ['one', 'fish', 'two', 'fish', 'two', 'fish', 'blue', 'fish', 'cat']
+    # print(create_sentence(walk(word_list, 15)))
+    print(higher_order(word_list, "fish two"))
