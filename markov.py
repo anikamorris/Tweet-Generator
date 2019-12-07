@@ -27,7 +27,8 @@ def higher_order(word_list, new_words, order=2):
     for i in range(len(word_list) - 1):
         words.clear()
         for j in range(order):
-            words.append(word_list[i + j])
+            if i < (len(word_list) - order):
+                words.append(word_list[i + j])
         if key_words == words:
             next_words.clear()
             for j in range(order):
@@ -38,28 +39,58 @@ def higher_order(word_list, new_words, order=2):
     storage_dict[new_words] = Dictogram(next_pairs)
     return storage_dict
 
-def second_order_walk(word_list, length):
+def order_sample(word_list, order=2):
+    histogram = Dictogram(word_list)
+    next_words = []
+
+    # sample a random word from histogram
+    next_word_str = histogram.sample()
+    # find all the words that come after 
+    chain = new_chain(word_list, next_word_str)
+    # append both words to a list
+    next_words.append(next_word_str)
+
+    for i in range(order - 1):
+        if len(chain) > 0:
+            next_word_str = chain.sample()
+            next_words.append(next_word_str)
+            chain = new_chain(word_list, next_word_str)
+
+    # join the words into a string and assign to a variable
+    words_str = " ".join(next_words)
+    return words_str
+
+def higher_order_walk(word_list, length, order=2):
+    """Samples a random pair of consecutive words from word_list and uses higher_order()
+        to generate a sentence from those words. 
+    Parameters:
+    word_list: List
+    length: Int
+
+    Returns:
+    sentence: String
+    """
     sentence = []
     next_words_list = []
-    histogram = Dictogram(word_list)
-
-    next_word_str = histogram.sample()
-    next_words_list.append(next_word_str)
-
-    chain = new_chain(word_list, next_word_str)
-    next_next_word = chain.sample()
-    next_words_list.append(next_next_word)
-
-    words_str = " ".join(next_words_list)
-
+    
+    words_str = order_sample(word_list, order)
+    # append both words to the sentence
     sentence.append(words_str)
-    for i in range(length - 1):
-        chain = higher_order(word_list, words_str)
-        if len(chain) > 0:
+
+    # repeat until length of sentence == length input
+    for i in range(length - order):
+        # make sure next_words_list is empty
+        next_words_list.clear()
+        # get the list of pairs that comes after the previous pair
+        chain = higher_order(word_list, words_str, order)
+        # if the chain isn't empty
+        if len(chain[words_str]) > 0:
+            # sample the value in the chain, which is a dictogram
             words_str = chain[words_str].sample()
-            next_words_list.clear()
+            # add both words individually to next_words_list
             next_words_list = words_str.split()
-            sentence.append(next_words_list[1])
+            # only append the second word to the sentence
+            sentence.append(next_words_list[order - 1])
 
     sentence = " ".join(sentence)
     return sentence
@@ -126,4 +157,4 @@ if __name__ == "__main__":
     # word_list = ['one', 'fish', 'two', 'fish', 'two', 'fish', 'blue', 'fish', 'cat']
     # print(create_sentence(walk(word_list, 15)))
     # print(higher_order(word_list, "fish two fish", 3))
-    print(second_order_walk(word_list, 20))
+    print(higher_order_walk(word_list, 20))
