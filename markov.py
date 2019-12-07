@@ -1,6 +1,7 @@
 from dictogram import Dictogram
 from histogram import file_or_string
 import random
+import string
 
 def higher_order(word_list, new_words, order=2):
     """
@@ -40,6 +41,14 @@ def higher_order(word_list, new_words, order=2):
     return storage_dict
 
 def order_sample(word_list, order=2):
+    """
+    Parameters:
+    word_list: List
+    order (default = 2): Int 
+
+    Returns:
+    words_str: String
+    """
     histogram = Dictogram(word_list)
     next_words = []
 
@@ -61,8 +70,11 @@ def order_sample(word_list, order=2):
     return words_str
 
 def higher_order_walk(word_list, length, order=2):
-    """Samples a random pair of consecutive words from word_list and uses higher_order()
-        to generate a sentence from those words. 
+    """Use order_sample() to generate order number of words. Use those words
+       to generate a higher order chain and sample that chain to find the next
+       word to append to the sentence. Use that word to generate a new higher 
+       order chain and repeat until sentence is complete. Return sentence
+
     Parameters:
     word_list: List
     length: Int
@@ -92,8 +104,7 @@ def higher_order_walk(word_list, length, order=2):
             # only append the second word to the sentence
             sentence.append(next_words_list[order - 1])
 
-    sentence = " ".join(sentence)
-    return sentence
+    return create_sentence(sentence)
 
 def new_chain(word_list, word):
     """If word is in word_list, append the next word to a list.
@@ -147,8 +158,12 @@ def create_sentence(words):
         formatted_sentence: String
     """
     words[0] = words[0].capitalize()
-    formatted_sentence = ' '.join(words) + '.'
-
+    last_word = words[len(words) - 1]
+    last_char = last_word[len(last_word) - 1]
+    formatted_sentence = ' '.join(words)
+    if last_char in string.punctuation:
+        formatted_sentence = formatted_sentence[:-1]
+    formatted_sentence = formatted_sentence + "."
     return formatted_sentence
 
 if __name__ == "__main__":
@@ -157,4 +172,4 @@ if __name__ == "__main__":
     # word_list = ['one', 'fish', 'two', 'fish', 'two', 'fish', 'blue', 'fish', 'cat']
     # print(create_sentence(walk(word_list, 15)))
     # print(higher_order(word_list, "fish two fish", 3))
-    print(higher_order_walk(word_list, 20))
+    print(higher_order_walk(word_list, 40))
